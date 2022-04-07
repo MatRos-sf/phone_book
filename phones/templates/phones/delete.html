@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Person{% endblock %}
+
+{% block content %}
+    {% if not can_delete %}
+        <div class="alert alert-secondary" role="alert">
+          <h1 class="display-3 center text-center">Nie można usunąć numeru </h1>
+        </div>
+        <center>
+            <div class="btn-group btn-group-lg" role="group" aria-label="...">
+                <a class="btn btn-outline-secondary" href="{% url 'edit' person.id %}"> Back </a>
+                <a class="btn btn-outline-secondary" href="{% url 'home' %}"> Home page</a>
+            </div>
+        </center>
+
+
+
+    {% else %}
+        {% if is_delete %}
+            <div class="alert alert-secondary" role="alert">
+                <h1 class="display-3 center text-center">Usunięto osobę z bazy danych! </h1>
+            </div>
+        <center>
+            <div class="btn-group btn-group-lg" role="group" aria-label="...">
+                <a class="btn btn-outline-secondary" href="{% url 'home' %}"> Home page</a>
+            </div>
+        </center>
+        {% else %}
+            <h1 class="display-3 center text-center">Czy na pewno chcesz usunąć {{ person }}?  </h1>
+            <form action="." method="post">
+                {% csrf_token %}
+                <center>
+                     <div class="btn-group btn-group-lg" role="group" aria-label="...">
+                        <input class="btn btn-outline-secondary" href="{% url 'edit' person.pk %}" value="Yes" type="submit">
+                        <a class="btn btn-outline-secondary" href="{% url 'home' %}"> No </a>
+                    </div>
+                </center>
+
+            </form>
+        {% endif %}
+    {% endif %}
+{% endblock %}

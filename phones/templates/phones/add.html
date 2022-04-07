@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Person{% endblock %}
+
+{% block content %}
+    {% if add %}
+
+        <div class="alert alert-secondary center" role="alert">
+          <h1 class="display-3 center text-center">Dodano osobę </h1>
+        </div>
+
+    {% else %}
+        <form class="form-row" action="." method="post">
+            {% csrf_token %}
+            <div class="row p-5 mx-5">
+                <div class="col">
+                    {{ form_person.as_p }}
+                </div>
+            <div class="col">
+                {{ form_mail.as_p }}
+                {{ form_phone.as_p }}
+            </div>
+            </div>
+
+            <center>
+                <div class="btn-group btn-group-lg" role="group" aria-label="...">
+                    <input class="btn btn-outline-secondary"  value="Save" type="submit">
+
+                </div>
+            </center>
+
+    {% endif %}
+{% endblock %}

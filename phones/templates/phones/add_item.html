@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Item{% endblock %}
+
+{% block content %}
+    {% if add %}
+     <div class="alert alert-dark center" role="alert">
+         <h1 class="display-3 center text-center">{{ item }} dodany. </h1>
+        </div>
+    {% else %}
+        <div class="vstack gap-2 col-md-5 mx-auto">
+          <form action="." method="post">
+              {% csrf_token %}
+              {{ form.as_p }}
+                  <input class="btn btn-secondary" type="submit" value="Save">
+                  <a class="btn btn-outline-secondary" href="{% url 'home'  %}">Home</a>
+          </form>
+         </div>
+    {% endif %}
+{% endblock %}

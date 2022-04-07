@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<ul class="list-group list-group-flush">
+  {% for person in people %}
+    <center>
+        <li class="list-group-item list-group-item-dark">
+          <h2>{{ person }}</h2>
+            <li class="list-group-item ">
+              <div class="btn-group btn-group-sm">
+                <a href="{% url 'add_mail' person.pk %}" class="btn btn-outline-secondary" aria-current="page">Add email</a>
+                <a href="{% url 'add_phone' person.pk %}" class="btn btn-outline-secondary">Add number phone</a>
+                <a href="{% url 'detail' person.pk %}" class="btn btn-outline-secondary">Detail</a>
+            </div>
+                {% if person.get_phone_numbers %}
+                    <h6>Numer:
+                        {% for number in person.get_phone_numbers %}
+                            {{ number }}{% if forloop.last %}{% else %}, {% endif %}
+                        {% endfor %}</h6>
+                {% endif %}
+
+
+              {% if person.get_mails %}
+                  <h6>Mail:
+                      {% for mail in person.get_mails %}
+                          {{ mail }}{% if forloop.last %}{% else %}, {% endif %}
+                      {% endfor %}
+                  </h6>
+              {% endif %}
+
+          </li>
+        </li></center>
+  {% endfor %}
+</ul>
+
+{% endblock %}

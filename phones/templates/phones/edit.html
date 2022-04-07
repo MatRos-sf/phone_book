@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Person{% endblock %}
+
+{% block content %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <center>
+        <h1 class="display-3">Co chcesz edytować?  </h1>
+    </center>
+    <center>
+    <div class="btn-group-vertical " role="group" aria-label="...">
+        <a class="btn btn-secondary btn-lg activate" href="{% url 'edit_personal_data' person.pk %}"> Personal Data </a>
+        <div class="btn-group" role="group">
+            <button  id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Number Phone
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                {% for number in person.phone.all %}
+                    <a class="dropdown-item btn-lg" href="{% url 'edit_number' number.id %}">{{ number.phone }}</a>
+                {% empty %}
+                    <a class="dropdown-item btn-lg" href="{% url 'add_phone' person.id %}">Add number</a>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Mail -->
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Mail
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                {% for mail in person.mail.all %}
+                    <a class="dropdown-item btn-lg" href="{% url 'edit_mail' mail.id %}">{{ mail.mail }}</a>
+                {% empty %}
+                    <a class="dropdown-item btn-lg" href="{% url 'add_mail' person.id %}">Add mail</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</center>
+
+
+
+{% endblock %}

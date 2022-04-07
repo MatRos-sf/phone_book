@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <h1 class="display-3">Dane personalne: </h1>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Name</td>
+      <td>{{ person.name }}</td>
+    </tr>
+    <tr>
+      <td>Surname</td>
+      <td>{{person.surname}}</td>
+    </tr>
+    <tr>
+      <td>Number Phone</td>
+        <td>
+            {% for number in person.get_phone_numbers %}
+                {{ number }}{% if forloop.last %}{% else %}, {% endif %}
+              {% empty %}
+                Osoba nie ma w bazie numeru telefonu.
+              {% endfor %}
+        </td>
+    </tr>
+    <tr>
+      <td>Mail</td>
+        <td>
+              {% for mail in person.get_mails %}
+                {{ number }}{% if forloop.last %}{% else %}, {% endif %}
+              {% empty %}
+                <strong>Osoba nie ma w bazie podanego maila.</strong>
+              {% endfor %}
+        </td>
+    </tr>
+  </tbody>
+</table>
+<center>
+    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+        <a class="btn btn-outline-secondary" href="{% url 'add_phone' person.pk %}"> Add number</a>
+        <a class="btn btn-outline-secondary" href="{% url 'add_mail' person.pk %}"> Add mail</a>
+        <a class="btn btn-outline-secondary" href="{% url 'edit' person.pk %}"> Edit </a>
+        <a class="btn btn-outline-secondary {% if person.is_mail_or_number %}disabled{% endif %}" href="{% url 'delete_person' person.pk %}" > Delete </a>
+    </div>
+</center>
+
+{% endblock %}
