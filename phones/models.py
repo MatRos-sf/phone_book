@@ -21,7 +21,7 @@ class Person(models.Model):
     def get_mails(self):
         mails = []
         for mail in self.mail.all():
-            mails.append(mail)
+            mails.append(mail.mail)
         return mails
 
     def is_mail_or_number(self):

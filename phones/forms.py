@@ -23,3 +23,9 @@ class MailForms(forms.ModelForm):
     class Meta:
         model = Mail
         fields = ('mail',)
+
+class AddRandomPeopleForms(forms.Form):
+    code = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control",
+                                                             'type': 'password',
+                                                             'id': "inputPassword6"}))
+    amount = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))

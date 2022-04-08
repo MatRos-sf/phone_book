@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import (add_user, HomeView, DetailPersonView, edit, edit_personal_data, edit_number,
-                    edit_mail, add_phone, add_mail, delete_person )
+                    edit_mail, add_phone, add_mail, delete_person, add_random_people)
 urlpatterns = [
 
     path("", HomeView.as_view(), name="home"),
@@ -16,4 +16,5 @@ urlpatterns = [
     path("add/person/<int:id>/mail/", add_mail, name='add_mail'),
     #DELETE url
     path("delete/person/<int:id>/", delete_person, name='delete_person'),
+    path("random/", add_random_people, name='random')
 ]

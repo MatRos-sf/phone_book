@@ -1,7 +1,7 @@
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
-from .forms import PersonForms, MailForms, PhoneForms
-from django.views.generic import ListView, DetailView, DeleteView
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import PersonForms, MailForms, PhoneForms, AddRandomPeopleForms
+from django.views.generic import ListView, DetailView
 from .models import Person, Phone, Mail
 
 
@@ -9,6 +9,7 @@ class HomeView(ListView):
     model = Person
     template_name = "phones/home_page.html"
     context_object_name = 'people'
+
 
     def get_queryset(self):
         query = self.request.GET.get('q')
@@ -65,7 +66,7 @@ def add_user(request):
 def add_phone(request, id):
     person = get_object_or_404(Person, pk=id)
     form = PhoneForms()
-    add = True
+    add = False
     if request.method == 'POST':
         form = PhoneForms(request.POST)
         if form.is_valid():
@@ -136,7 +137,8 @@ def edit_number(request, id):
                 phone_update=True
             item.save()
     return render(request, "phones/edit_item.html", {"form": form_phone,
-                                                     "update": phone_update})
+                                                     "update": phone_update,
+                                                     "item": 'Numer'})
 def edit_mail(request, id):
     item = get_object_or_404(Mail, pk=id)
     form_mail = MailForms(instance=item)
@@ -152,7 +154,8 @@ def edit_mail(request, id):
             if mail_update:
                 item.save()
     return render(request, "phones/edit_item.html", {"form": form_mail,
-                                                     "update": mail_update})
+                                                     "update": mail_update,
+                                                     "item": 'Mail'})
 
 
 #---------------------- DELETE USER ------------------------------------
@@ -171,4 +174,40 @@ def delete_person(request, id):
     return render(request, "phones/delete.html", {'can_delete':can_delete,
                                                   'person': person,
                                                   'is_delete': is_delete})
+
+from .generation_fake_data import data_fake
+
+def add_random_people(request):
+    #password: dodaj
+    form = AddRandomPeopleForms()
+    add = False
+    added = 0
+    if request.method == "POST":
+        form = AddRandomPeopleForms(request.POST)
+        if form.is_valid() and request.POST.get('code') == 'dodaj':
+            amount_people = int(request.POST.get('amount',0))
+            add = True
+            for i in range(amount_people):
+                person = Person.objects.create(**data_fake.data_person())
+
+                # czy twozymy numer telefonu?
+                if data_fake.create_or_no():
+                    amount = data_fake.hom_many()
+                    for i in range(amount):
+                        person.phone.create(**data_fake.data_phone())
+                # czy tworzymy maial
+                if data_fake.create_or_no():
+                    amount = data_fake.hom_many()
+                    for i in range(amount):
+                        person.mail.create(**data_fake.data_email())
+                added +=1
+
+
+    return render(request,"phones/generation/generation.html", {'form': form,
+                                                                'add': add,
+                                                                'item': added})
+
+
+
+
 

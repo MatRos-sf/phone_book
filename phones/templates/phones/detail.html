@@ -35,7 +35,7 @@
       <td>Mail</td>
         <td>
               {% for mail in person.get_mails %}
-                {{ number }}{% if forloop.last %}{% else %}, {% endif %}
+                {{ mail }}{% if forloop.last %}{% else %}, {% endif %}
               {% empty %}
                 <strong>Osoba nie ma w bazie podanego maila.</strong>
               {% endfor %}
