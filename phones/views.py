@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from .forms import PersonForms, MailForms, PhoneForms
 from django.views.generic import ListView, DetailView, DeleteView
@@ -8,6 +9,16 @@ class HomeView(ListView):
     model = Person
     template_name = "phones/home_page.html"
     context_object_name = 'people'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            object_list = self.model.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) |
+                                                    Q(phone__phone__icontains=query) | Q(mail__mail__icontains=query))
+            object_list = object_list.distinct()
+        else:
+            object_list = self.model.objects.all()
+        return object_list
 
 class DetailPersonView(DetailView):
     model = Person

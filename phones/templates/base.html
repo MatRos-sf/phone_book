@@ -26,6 +26,10 @@
                         </li>
                 </ul>
             </div>
+              <form method='GET' action="{% url 'home' %}">
+              <input type='text' name='q' value='{{ request.GET.q }}'>
+              <input class="button" type='submit' value="Search Profile">
+        </form>
           </div>
     </nav>
 
